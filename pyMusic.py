@@ -1,63 +1,51 @@
-import pyglet
+import sys
 import glob
 
-from pyglet.window import key
+def playering( fname ):
+	import pymedia.audio.sound as sound
+	import time, wave
+	f= wave.open( fname, 'rb' )
+	sampleRate= f.getframerate()
+	channels= f.getnchannels()
+	format= sound.AFMT_S16_LE
+	snd1= sound.Output( sampleRate, channels, format )
+	s= ' '
+	while len( s ):
+		s= f.readframes( 1000 )
+		snd1.play( s )
+  
+	while snd1.isPlaying(): 
+		time.sleep( 0.05 )
 
-i = 0
-filenames = glob.glob('*.mp3')
-window = pyglet.window.Window()
-player = pyglet.media.Player()
-label = pyglet.text.Label("MusicX", font_name='Times New Roman', font_size=36,x=window.width//2, y=window.height-20, anchor_x='center', anchor_y='center')
 
-play = 0
-start = 0
-
-
-@window.event
-def on_draw():
-	window.clear()
-	label.draw()
-
-@window.event
-def on_key_press(symbol,modifiers):
-	global i
-	global play
-	global start
-	if symbol == key.ENTER and start == 0:
-		source = pyglet.media.load(filenames[i])
-		player.queue(source)
-		player.play()
-		play = 1
-		start = 1
-
-	elif symbol == key.SPACE:
-		if play == 1:
-			player.pause()
-			play = 0
-		else:
-			player.play()
-			play = 1
-	
-	elif symbol == key.RIGHT:
-		if i != len(filenames)-1:
-			i += 1
-			source = pyglet.media.load(filenames[i])
-			player.queue(source)
-			player.next()
-	
-	elif symbol == key.LEFT:
-		if i > 0:
-			i -=1
-			source = pyglet.media.load(filenames[i])
-			player.queue(source)
-			player.next()
-
-@player.event
-def on_eos():
-	global i
-	i += 1
-	if i != len(filenames)-1:
-		source = pyglet.media.load(filenames[i])
-		player.queue(source)
-		player.play()
-pyglet.app.run()
+def dumpWAV( name ):
+	import pymedia.audio.acodec as acodec
+	import pymedia.muxer as muxer
+	import time, wave, string, os
+	name1= str.split( name, '.' )
+	name2= string.join( name1[ : len( name1 )- 1 ] )
+	dm= muxer.Demuxer( name1[ -1 ].lower() )
+	dec= None
+	f= open( name, 'rb' )
+	snd= None
+	s= " "
+	while len( s ):
+		s= f.read( 20000 )
+		if len( s ):
+			frames= dm.parse( s )
+			for fr in frames:
+				if dec== None:
+					dec= acodec.Decoder( dm.streams[ 0 ] )
+				r= dec.decode( fr[ 1 ] )
+				if r and r.data:
+					if snd== None:
+						snd= wave.open( name2+ '.wav', 'wb' )
+						snd.setparams( (r.channels, 2, r.sample_rate, 0, 'NONE','') )
+					
+					snd.writeframes( r.data )
+	print("Now playing " +name2)
+	playering(name2+ '.wav')
+					
+filenames=glob.glob('*.mp3')
+for i in range(len(filenames)):
+	dumpWAV(filenames[i]);
