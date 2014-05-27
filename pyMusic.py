@@ -1,6 +1,37 @@
+import cherrypy
 import sys
 import glob
 
+votes=[0,0,0,1]
+
+class Pageypage(object):
+	@cherrypy.expose
+	def index(self):
+		return """ <head>
+			<title>Booooring</title>
+			</head>
+			<body>
+			<h1>Hello world!</h1>
+			<form action="http://localhost:8080/upvote?id=01">
+				<input type="submit" value="Song 1">
+			</form>
+			<form action="http://localhost:8080/upvote?id=02">
+				<input type="submit" value="Song 2">
+			</form>
+			<form action="http://localhost:8080/upvote?id=03">
+				<input type="submit" value="Song 3">
+			</form>
+			<form action="http://localhost:8080/upvote?id=04">
+				<input type="submit" value="Song 4">
+			</form>
+			</body>"""
+
+	@cherrypy.expose
+	def upvote(self, id=0):
+		global votes
+		votes[id] += 1
+		"""return what?"""
+		
 def playering( fname ):
 	import pymedia.audio.sound as sound
 	import time, wave
@@ -16,6 +47,8 @@ def playering( fname ):
   
 	while snd1.isPlaying(): 
 		time.sleep( 0.05 )
+		
+	nextSong()
 
 
 def dumpWAV( name ):
@@ -47,5 +80,14 @@ def dumpWAV( name ):
 	playering(name2+ '.wav')
 					
 filenames=glob.glob('*.mp3')
-for i in range(len(filenames)):
+
+def nextSong():
+	temp = 0
+	for i in range(len(filenames)):
+		if (votes[i]>temp):
+			temp = i
+	votes[i] = 0
 	dumpWAV(filenames[i]);
+"""Threading required. Probably"""
+cherrypy.quickstart(Pageypage())
+nextSong()
