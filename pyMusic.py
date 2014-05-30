@@ -1,8 +1,10 @@
 import cherrypy
 import sys
 import glob
+from threading import Thread
 
 votes=[0,0,0,1]
+filenames=glob.glob('*.mp3')
 
 class Pageypage(object):
 	@cherrypy.expose
@@ -12,16 +14,16 @@ class Pageypage(object):
 			</head>
 			<body>
 			<h1>Hello world!</h1>
-			<form action="http://localhost:8080/upvote?id=01">
+			<form action="http://localhost:8080/upvote?id=0">
 				<input type="submit" value="Song 1">
 			</form>
-			<form action="http://localhost:8080/upvote?id=02">
+			<form action="http://localhost:8080/upvote?id=1">
 				<input type="submit" value="Song 2">
 			</form>
-			<form action="http://localhost:8080/upvote?id=03">
+			<form action="http://localhost:8080/upvote?id=2">
 				<input type="submit" value="Song 3">
 			</form>
-			<form action="http://localhost:8080/upvote?id=04">
+			<form action="http://localhost:8080/upvote?id=3">
 				<input type="submit" value="Song 4">
 			</form>
 			</body>"""
@@ -79,15 +81,23 @@ def dumpWAV( name ):
 	print("Now playing " +name2)
 	playering(name2+ '.wav')
 					
-filenames=glob.glob('*.mp3')
+
 
 def nextSong():
+	global votes
+	filenames=glob.glob('*.mp3')
 	temp = 0
+	i=0
 	for i in range(len(filenames)):
 		if (votes[i]>temp):
 			temp = i
 	votes[i] = 0
 	dumpWAV(filenames[i]);
-"""Threading required. Probably"""
+
+	
+t1=Thread(target = nextSong())
+t1.setDaemon=True
+t1.start()
 cherrypy.quickstart(Pageypage())
-nextSong()
+while True:
+	pass
