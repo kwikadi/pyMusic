@@ -6,7 +6,7 @@ from collections import namedtuple
 import sys
 import glob
 import music
-import eyed3
+import id3reader
 
 '''def nextSong():
 	filenames=glob.glob('*.mp3')
@@ -22,12 +22,10 @@ Songs = namedtuple('Songs', 'name artist')
 songslist = []
 
 filenames=glob.glob('*.mp3')
-tag = eyed3.Tag()
 
 for song in filenames:
-	tag.link(song)
-	songslist.append(Songs(tag.getArtist,tag.getTitle))
-
+	id3r = id3reader.Reader(song)
+	songslist.append(Songs(id3r.getValue('performer'),id3r.getValue('title')))
 
 @app.route('/')
 def hello():

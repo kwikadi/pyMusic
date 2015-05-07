@@ -47,7 +47,8 @@
       {% for song in filenames %}
       <div class="row">
         <div class="col-md-12">
-          <h2>{{ song }}</h2>
+          <h2>{{ song[0] }}</h2>
+          <p>{{ song[1] }}</p>
           <p><a class="btn btn-default" href="#" role="button">Vote</a></p>
         </div>
       </div>
