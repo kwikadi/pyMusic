@@ -47,9 +47,12 @@
       {% for song in filenames %}
       <div class="row">
         <div class="col-md-12">
-          <h2>{{ song[0] }}</h2>
-          <p>{{ song[1] }}</p>
-          <p><a class="btn btn-default" href="#" role="button">Vote</a></p>
+          <h3>{{ song[1] }}  
+            <button type="button" class="btn btn-success" aria-label="Left Align">
+              <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Vote
+            </button>
+          </h3>
+          <p>{{ song[0] }}</p>
         </div>
       </div>
       {% endfor %}

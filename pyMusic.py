@@ -19,16 +19,14 @@ import id3reader
 app = Flask(__name__)
 
 Songs = namedtuple('Songs', 'name artist')
-songslist = []
-
-filenames=glob.glob('*.mp3')
-
-for song in filenames:
-	id3r = id3reader.Reader(song)
-	songslist.append(Songs(id3r.getValue('performer'),id3r.getValue('title')))
 
 @app.route('/')
 def hello():
+	songslist = []
+	filenames=glob.glob('*.mp3')
+	for song in filenames:
+		id3r = id3reader.Reader(song)
+		songslist.append(Songs(id3r.getValue('performer'),id3r.getValue('title')))
 	return render_template('index.html', filenames=songslist)
 if __name__ == '__main__':
 	app.run(debug=True)
