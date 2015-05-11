@@ -43,23 +43,61 @@
     </div>
 
     <div class="container">
-      <!-- Example row of columns -->
-      {% for song in filenames %}
+    <nav>
+      <ul class="pagination">
+        <li>
+          <a href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li>
+          <a href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+      {% for song in range(10) %}
+
       <div class="row">
         <div class="col-md-12">
-          <h3>{{ song[1] }}  
+          <h3>{{ filenames[song][1] }}  
             <button type="button" class="btn btn-success" aria-label="Left Align">
               <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Vote
             </button>
           </h3>
-          <p>{{ song[0] }}</p>
+          <p>{{ filenames[song][0] }}</p>
         </div>
       </div>
       {% endfor %}
+        <nav>
+          <ul class="pagination">
+            <li>
+              <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li>
+              <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       <hr>
 
       <footer>
-        <p>kwikadi :)</p>
+        <p>kwikadi</p>
       </footer>
     </div> <!-- /container -->
 
