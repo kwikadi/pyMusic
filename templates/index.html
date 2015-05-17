@@ -45,55 +45,65 @@
     <div class="container">
     <nav>
       <ul class="pagination">
+      {% if page > 1 %}
         <li>
-          <a href="#" aria-label="Previous">
+          <a href="/page/{{ page-1 }}" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
+      {% endif %}
+        {% for number in paginator %}
+          <li>
+            <a href="/page/{{ number }}">{{ number }}
+            </a>
+          </li>
+        {% endfor %}
+        {% if page != paginator[-1] %}
         <li>
-          <a href="#" aria-label="Next">
+          <a href="/page/{{ page+1 }}" aria-label="Next">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
+        {% endif %}
       </ul>
     </nav>
-      {% for song in range(10) %}
+      {% for song in filenames %}
 
       <div class="row">
         <div class="col-md-12">
-          <h3>{{ filenames[song][1] }}  
+          <h3>{{ song[1] }}  
             <button type="button" class="btn btn-success" aria-label="Left Align">
               <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Vote
             </button>
           </h3>
-          <p>{{ filenames[song][0] }}</p>
+          <p>{{ song[0] }}</p>
         </div>
       </div>
       {% endfor %}
-        <nav>
-          <ul class="pagination">
-            <li>
-              <a href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li>
-              <a href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
+    <nav>
+      <ul class="pagination">
+      {% if page > 1 %}
+        <li>
+          <a href="/page/{{ page-1 }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+      {% endif %}
+        {% for number in paginator %}
+          <li>
+            <a href="/page/{{ number }}">{{ number }}
+            </a>
+          </li>
+        {% endfor %}
+        {% if page != paginator[-1] %}
+        <li>
+          <a href="/page/{{ page+1 }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
       <hr>
 
       <footer>
