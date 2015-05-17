@@ -1,6 +1,8 @@
 from flask import (
 	Flask,
-	render_template
+	render_template,
+	url_for,
+	redirect
 )
 from collections import namedtuple
 import sys
@@ -8,17 +10,16 @@ import glob
 import music
 import id3reader
 
-'''def nextSong():
-	filenames=glob.glob('*.mp3')
-	for i in range(len(filenames)):
-		if (votes[i]>temp):
-			temp = i
-	votes[i] = 0
-	dumpWAV(filenames[i]);'''
+def nextSong(songname):
+	pass
 
 app = Flask(__name__)
 
 Songs = namedtuple('Songs', 'name artist')
+
+@app.route('/')
+def reroute():
+	return redirect(url_for('hello', page_no=1))
 
 @app.route('/page/<int:page_no>')
 def hello(page_no):
@@ -43,6 +44,8 @@ def hello(page_no):
 		print "Final"
 		paginator = [num for num in range(1, pages)]
 	return render_template('index.html', filenames=songslist[10*(page_no - 1):10*(page_no - 1)+9], paginator=paginator, page=page_no)
+
+
 if __name__ == '__main__':
 	app.run(debug=True)
 
