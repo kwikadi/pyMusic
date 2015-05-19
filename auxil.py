@@ -1,28 +1,20 @@
-from collections import namedtuple
 import glob
 import id3reader
 import json
 
-Songs = namedtuple('Songs', 'name artist')
-
 def findsongs(location):
-	global songslist
 	songslist = []
 	filenames=glob.glob(location + '\*.mp3')
 	for song in filenames:
 		id3r = id3reader.Reader(song)
 		# die, non tagged songs, die!
+		dictio = {}
 		if id3r.getValue('performer') is not None and id3r.getValue('title') is not None:
-			songslist.append(Songs(id3r.getValue('title'),id3r.getValue('performer')))
+			dictio['title'] = id3r.getValue('title')
+			dictio['performer'] = id3r.getValue('performer')
+			dictio['album'] = id3r.getValue('album')
+			dictio['year'] = id3r.getValue('year')
+			dictio['genre'] = id3r.getValue('genre')
+			songslist.append(dictio)
 	songslist.sort()
-	print songslist[0]
-	print songslist[1]
-	createjson()
 	return songslist
-
-def createjson():
-	data = {}
-	for song in songslist:
-		data[song[0]] = song[1]
-	with open("songs.json", "w") as outfile:
-		json.dump(data, outfile, sort_keys=True, indent=4)

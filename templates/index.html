@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="pymusic" lang="en">
+<html ng-app="pymusic" lang="en" ng-controller=""pyMusicController>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -55,31 +55,6 @@
     </div>
 
     <div class="container">
-    <nav>
-      <ul class="pagination">
-      {% if page > 1 %}
-        <li>
-          <a href="/page/{{ page-1 }}" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-      {% endif %}
-        {% for number in paginator %}
-          <li>
-            <a href="/page/{{ number }}">{{ number }}
-            </a>
-          </li>
-        {% endfor %}
-        {% if page != paginator[-1] %}
-        <li>
-          <a href="/page/{{ page+1 }}" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-        {% endif %}
-      </ul>
-    </nav>
-      {% for song in filenames %}
 
       <div class="row">
         <div class="col-md-12">
@@ -87,36 +62,12 @@
             <button type="button" class="btn btn-success" aria-label="Left Align">
               <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Vote
             </button>
-            {{ song[0] }} 
+
           </h3>
-          <p style="margin-left: 2.2cm">{{ song[1] }}</p>
+          <p style="margin-left: 2.2cm"></p>
         </div>
       </div>
-      {% endfor %}
-    <nav>
-      <ul class="pagination">
-      {% if page > 1 %}
-        <li>
-          <a href="/page/{{ page-1 }}" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-      {% endif %}
-        {% for number in paginator %}
-          <li>
-            <a href="/page/{{ number }}">{{ number }}
-            </a>
-          </li>
-        {% endfor %}
-        {% if page != paginator[-1] %}
-        <li>
-          <a href="/page/{{ page+1 }}" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-        {% endif %}
-      </ul>
-    </nav>
+
       <hr>
 
       <footer>
